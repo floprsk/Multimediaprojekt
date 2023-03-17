@@ -1,0 +1,461 @@
+{% extends "base.html" %} {%block title%}Webapp{%endblock%} 
+
+{%block nav%}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">Webapp</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      </li>
+      <li class="nav-item dropdown" >
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+        Zoom
+        </a>
+        <div
+          class="dropdown-menu"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+           <!-- Slider -->
+          <div id="zoom_container">
+            <form method="post" id="input-form">
+              <input
+                class="range"
+                type="range"
+                name="slider"
+                id="slider"
+                min="-360"
+                max="360"
+                step="18"
+              >
+              <p>Value: <span id="myValue"></span></p>
+              <p>aktueller Stand: 
+                <span id="aktuellerStand">
+                  {{actual_slidervalue}}
+                </span></p>
+              <p><input type="submit" id="submit-button"></p>
+            </form>
+          </div>
+        </li>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+          
+   
+    <script type="text/javascript">
+      $(document).on('submit','#input-form',function(e)
+                     {
+        console.log('hello');
+       
+        $.ajax({
+          type:'POST',
+          url:'/',
+          data:{
+            slider:$("#slider").val()
+
+          },
+          success:function()
+          {
+            alert('saved');
+            $('#aktuellerStand').html("{{actual_slidervalue}}");
+          }
+        })
+      });
+    </script>
+
+
+
+            <script type="text/javascript">
+
+              let input = document.getElementById("slider");
+              let output = document.getElementById("myValue");
+              let aktuellerStand = document.getElementById("aktuellerStand")
+              output.innerHTML = input.value ;
+
+              input.oninput = function(){
+                output.innerHTML = (this.value)*100/360 +" %";
+              }
+
+              aktuellerStand.innerHTML = ({{actual_slidervalue}})* 100/360 + " %"
+
+
+              
+
+              </script>
+        
+
+        
+           <!-- dark mode button -->
+          <li id="li_darkbutton">
+            <button id="darkbutton" onclick="darkMode()"><iconify-icon id="moon" icon="ic:baseline-dark-mode"></iconify-icon></button>
+          </li>
+          </div>
+        </nav>
+       
+          
+
+          <script type="text/javascript">
+
+            function darkMode() {
+               var element = document.body;
+               element.classList.toggle("dark-mode");
+            }
+
+            </script>
+
+          <style>
+
+            nav{
+              display:flex;
+              
+
+            }
+
+            #darkbutton{
+              border-radius: 50px;
+              border: none;
+              margin-top: 5px;
+             
+              
+            }
+
+            #moon{
+              background: none;
+              border: none;
+              color: white;
+            }
+           
+            #zoom_container {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            form {
+              text-align: center;
+              width: 100%;
+
+              padding: 10px;
+              margin-top: 10px;
+            }
+
+            input[type="range"] {
+              height: 39px;
+              -webkit-appearance: none;
+              margin: 10px;
+              background: rgb(244, 244, 244);
+            }
+            input[type="range"]:focus {
+              outline: none;
+            }
+            input[type="range"]::-webkit-slider-runnable-track {
+              width: 100%;
+              height: 8px;
+              cursor: pointer;
+              animate: 0.2s;
+              box-shadow: 2px 2px 4px #ff2626;
+              background: #ffa640;
+              border-radius: 2px;
+              border: 1px solid #ffb940;
+            }
+            input[type="range"]::-webkit-slider-thumb {
+              box-shadow: 1px 1px 4px #ff1c03;
+              border: 3px solid #ffb759;
+              height: 29px;
+              width: 29px;
+              border-radius: 31px;
+              background: #ff8c4a;
+              cursor: pointer;
+              -webkit-appearance: none;
+              margin-top: -12.5px;
+            }
+            input[type="range"]:focus::-webkit-slider-runnable-track {
+              background: #ffa640;
+            }
+            input[type="range"]::-moz-range-track {
+              width: 100%;
+              height: 8px;
+              cursor: pointer;
+              animate: 0.2s;
+              box-shadow: 2px 2px 4px #ff2626;
+              background: #ffa640;
+              border-radius: 2px;
+              border: 1px solid #ffb940;
+            }
+            input[type="range"]::-moz-range-thumb {
+              box-shadow: 1px 1px 4px #ff1c03;
+              border: 3px solid #ffb759;
+              height: 29px;
+              width: 29px;
+              border-radius: 31px;
+              background: #ff8c4a;
+              cursor: pointer;
+            }
+            input[type="range"]::-ms-track {
+              width: 100%;
+              height: 8px;
+              cursor: pointer;
+              animate: 0.2s;
+              background: transparent;
+              border-color: transparent;
+              color: transparent;
+            }
+            input[type="range"]::-ms-fill-lower {
+              background: #ffa640;
+              border: 1px solid #ffb940;
+              border-radius: 4px;
+              box-shadow: 2px 2px 4px #ff2626;
+            }
+            input[type="range"]::-ms-fill-upper {
+              background: #ffa640;
+              border: 1px solid #ffb940;
+              border-radius: 4px;
+              box-shadow: 2px 2px 4px #ff2626;
+            }
+            input[type="range"]::-ms-thumb {
+              margin-top: 1px;
+              box-shadow: 1px 1px 4px #ff1c03;
+              border: 3px solid #ffb759;
+              height: 29px;
+              width: 29px;
+              border-radius: 31px;
+              background: #ff8c4a;
+              cursor: pointer;
+            }
+            input[type="range"]:focus::-ms-fill-lower {
+              background: #ffa640;
+            }
+            input[type="range"]:focus::-ms-fill-upper {
+              background: #ffa640;
+            }
+
+            .range {
+              width: 500px;
+            }
+
+            /* CSS */
+            .button-81 {
+              background-color: #fff;
+              border: 0 solid #e2e8f0;
+              border-radius: 1.5rem;
+              box-sizing: border-box;
+              color: #0d172a;
+              cursor: pointer;
+              display: inline-block;
+              font-family: "Basier circle", -apple-system, system-ui,
+                "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+                sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+                "Segoe UI Symbol", "Noto Color Emoji";
+              font-size: 1rem;
+              font-weight: 600;
+              line-height: 1;
+              padding: 1rem 1.6rem;
+              text-align: center;
+              text-decoration: none #0d172a solid;
+              text-decoration-thickness: auto;
+              transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+              box-shadow: 0px 1px 2px rgba(166, 175, 195, 0.25);
+              user-select: none;
+              -webkit-user-select: none;
+              touch-action: manipulation;
+            }
+
+            .button-81:hover {
+              background-color: #1e293b;
+              color: #fff;
+            }
+
+            @media (min-width: 768px) {
+              .button-81 {
+                font-size: 1.125rem;
+                padding: 1rem 2rem;
+              }
+            }
+          </style>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+</header>
+{%endblock%}
+{%block inhalt%}
+<style>
+  #netflix_N {
+    border-radius: 10px;
+    background-color: #343a40;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #netflix_N:hover {
+    box-shadow: #e50914 0px 3px 8px;
+  }
+
+  #twitch {
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #twitch:hover {
+    box-shadow: #a970ff 0px 3px 8px;
+  }
+
+  #youtube {
+    border-radius: 30px;
+    background-color: #ffffff;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #youtube:hover {
+    box-shadow: #e50914 0px 3px 8px;
+  }
+
+  #google {
+    border-radius: 30px;
+    background-color: #ffffff;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #google:hover {
+    box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 8px;
+  }
+
+  .flex_container_apps {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px;
+  }
+
+  #pacman {
+    border-radius: 30px;
+    background-color: #2b12e6;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #pacman:hover {
+    box-shadow: #f7c600 0px 3px 8px;
+  }
+
+  #planet_defence {
+    border-radius: 30px;
+    background-color: #ffffff;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 5px;
+  }
+
+  #planet_defence:hover {
+    box-shadow: blue 0px 3px 8px;
+  }
+
+  .gcse-searchbox-only {
+    margin: 100px;
+  }
+
+  #searchbox {
+    padding: 90px;
+  }
+</style>
+
+<div id="searchbox">
+  <script
+    async
+    src="https://cse.google.com/cse.js?cx=3298001599e1f4253"
+  ></script>
+  <div class="gcse-searchbox-only"></div>
+</div>
+
+<div class="flex_container_apps">
+  <div style="order: 1">
+    <a href="https://www.netflix.com/">
+      <iconify-icon
+        id="netflix_N"
+        icon="mdi:netflix"
+        style="color: #e50914"
+        width="50"
+      ></iconify-icon>
+    </a>
+  </div>
+  <div style="order: 3">
+    <a href="https://www.twitch.com/"
+      ><iconify-icon
+        id="twitch"
+        icon="bi:twitch"
+        style="color: #a970ff"
+        width="50"
+      ></iconify-icon>
+    </a>
+  </div>
+  <div style="order: 4">
+    <a href="https://www.youtube.com/"
+      ><iconify-icon
+        id="youtube"
+        icon="akar-icons:youtube-fill"
+        style="color: #e50914"
+        width="50"
+      ></iconify-icon>
+    </a>
+  </div>
+  <div style="order: 2">
+    <a href="https://www.google.com/"
+      ><iconify-icon id="google" icon="logos:chrome" width="50"> </iconify-icon>
+    </a>
+  </div>
+  <div style="order: 5">
+    <a href="/pacman"
+      ><iconify-icon
+        id="pacman"
+        style="color: #f7c600"
+        icon="gg:pacman"
+        width="50"
+      ></iconify-icon
+    ></a>
+  </div>
+  <div style="order: 6">
+    <a href="/planet-defence"
+      ><iconify-icon
+        id="planet_defence"
+        style="color: #f7c600"
+        icon="icon-park:planet"
+        width="50"
+      ></iconify-icon
+    ></a>
+  </div>
+</div>
+
+{%endblock%}
